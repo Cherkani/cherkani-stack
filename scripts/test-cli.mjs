@@ -21,6 +21,7 @@ assert(existsSync(join(root, "references", "cross-platform.md")));
 assert(existsSync(join(root, "references", "documentation-integration.md")));
 assert(existsSync(join(root, "references", "design-preview.md")));
 assert(existsSync(join(root, "docs", "SOURCES.md")));
+assert(existsSync(join(root, "docs", "assets", "cherkani-stack-overview.png")));
 assert(existsSync(join(root, "scripts", "check-docs.mjs")));
 assert(existsSync(join(root, "scripts", "check-local.mjs")));
 assert.match(await readFile(join(root, "bin", "cherkani-stack.mjs"), "utf8"), /--device-auth/);

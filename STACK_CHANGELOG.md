@@ -47,6 +47,8 @@
   the official Codex CLI.
 - Added additive profile setup with `setup --add N`, preserving existing
   profile homes and signing in only newly added profiles when requested.
+- Added a generated README workflow overview image and Mermaid lifecycle diagram
+  explaining adaptive UI previews, specialist routing, QA, security, and ship.
 - Completed the local migration: Cherkani Stack is installed with its complete
   reference set, while the former CStack/GStack directories are out of active
   discovery and preserved in a dated rollback archive.

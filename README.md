@@ -8,6 +8,37 @@ security, review, shipping, and learning gates while selecting the best capabili
 CStack, GStack, and the engineering skill collection. The integration matrix
 removes duplicated routing and keeps each system in its strongest role.
 
+![Cherkani Stack workflow overview](docs/assets/cherkani-stack-overview.png)
+
+## How it works
+
+```mermaid
+flowchart LR
+    A[Founder goal] --> B[Context and spec]
+    B --> C{UI uncertainty or risk?}
+    C -->|No| D[Reuse and implement]
+    C -->|Yes| E[Design direction]
+    E --> F[HTML or React mock]
+    F --> G[Design review and approval]
+    G --> D
+    D --> H[Focused tests and QA]
+    H --> I[Security and resilience]
+    I --> J[Adversarial review]
+    J --> K[Approved ship]
+    K --> L[Learn and update the next action]
+
+    O[Cherkani Stack coordinator] -. routes .-> B
+    O -. selects .-> E
+    O -. delegates .-> H
+    O -. verifies .-> I
+```
+
+The route is adaptive. Small changes can reuse an existing component and go
+straight to focused QA. New or uncertain UI can use the visual mock and design
+approval route before implementation. Specialist skills are selected for the
+actual task: UI, motion, research, backend, migrations, security, testing,
+documentation, or release.
+
 ## Install and configure Codex
 
 The installer asks how many isolated Codex profiles/accounts to configure. It
