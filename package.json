@@ -5,6 +5,10 @@
   "type": "module",
   "bin": { "cherkani-stack": "bin/cherkani-stack.mjs" },
   "engines": { "node": ">=18" },
-  "scripts": { "test": "node scripts/test-cli.mjs" },
+  "scripts": {
+    "test": "node scripts/test-cli.mjs",
+    "docs:check": "node scripts/check-docs.mjs",
+    "check": "node scripts/check-local.mjs"
+  },
   "license": "MIT"
 }

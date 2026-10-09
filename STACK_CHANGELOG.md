@@ -36,6 +36,8 @@
 - Generalized backend, database, API, infrastructure, migration traceability,
   security scans, compatibility, observability, and rollback rules beyond
   Supabase, while retaining Supabase/RLS as a specialized project adapter.
+- Added a dependency-free local quality gate and source-driven documentation
+  integration with a reusable source registry and freshness caveat.
 - Completed the local migration: Cherkani Stack is installed with its complete
   reference set, while the former CStack/GStack directories are out of active
   discovery and preserved in a dated rollback archive.

@@ -68,6 +68,22 @@ checks the specification state and runs only the commands you explicitly give
 it. `finish` refuses to complete the goal if verification or acceptance checks
 fail.
 
+## Local quality and documentation checks
+
+Run the local quality gate before committing:
+
+```bash
+npm run check
+```
+
+It validates the package contract, Markdown links and source metadata, Node
+syntax, and whitespace. It does not require hosted CI or external services.
+
+When a task depends on changing framework or platform behavior, follow
+`references/documentation-integration.md` and record reusable authoritative
+sources in `docs/SOURCES.md`. The local checker validates the registry format;
+it does not pretend that a static check can prove an online page is current.
+
 Then invoke the installed skill explicitly as `$cherkani-stack` when you want
 the unified workflow. Project `AGENTS.md` files remain the source of
 project-specific rules.

@@ -18,4 +18,8 @@ assert(existsSync(join(root, "references", "capability-catalog.md")));
 assert(existsSync(join(root, "references", "reporting.md")));
 assert(existsSync(join(root, "references", "next-actions.md")));
 assert(existsSync(join(root, "references", "cross-platform.md")));
+assert(existsSync(join(root, "references", "documentation-integration.md")));
+assert(existsSync(join(root, "docs", "SOURCES.md")));
+assert(existsSync(join(root, "scripts", "check-docs.mjs")));
+assert(existsSync(join(root, "scripts", "check-local.mjs")));
 console.log("cherkani-stack package checks passed");
