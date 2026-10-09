@@ -7,7 +7,9 @@ The final recommendation should move the current goal one phase forward.
 | vague idea or conflicting intent | interview the founder and define the smallest valuable outcome |
 | weak evidence or unfamiliar code | run Graphify/context discovery and inspect existing patterns |
 | unclear requirements | write acceptance checks, non-goals, and unresolved decisions |
-| UI direction chosen | reuse components, complete the design gate, then prototype or build |
+| UI direction chosen | choose the smallest useful mock/review route based on uncertainty and reuse |
+| visual mock created | run the relevant design review, then implement the selected direction |
+| design approved | implement the selected direction, then run the relevant browser/accessibility QA |
 | implementation incomplete | finish one thin slice and run its focused verification |
 | tests failing | investigate the root cause, fix it, and rerun the regression |
 | UI changed | verify responsive, themes, keyboard, touch, accessibility, and browser behavior |

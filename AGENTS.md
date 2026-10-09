@@ -88,6 +88,15 @@ permissions, data implications, and success signal. Record unresolved decisions.
 For UI work, record the visual thesis, component reuse decisions, states,
 accessibility, themes, motion, and localization.
 
+### Adaptive visual preview and design approval
+
+Choose the smallest useful UI route. Tiny changes that reuse an existing
+pattern may go directly to implementation and focused QA. New, uncertain, or
+high-risk surfaces should use a reviewable HTML or React mock, relevant states,
+design review, and recorded approval before production implementation. Concept
+images may guide direction, but they do not replace an interactive preview or
+authorize production changes.
+
 ### Engineering architecture
 
 Define boundaries, data flow, dependencies, trust boundaries, failure modes,
@@ -151,6 +160,10 @@ For every UI or design task, use the relevant minimum gate:
 - verify responsive behavior, light/dark themes, keyboard/focus states,
   localization, long labels, and RTL where applicable;
 - complete design review or browser QA before handoff.
+- For UI work, report the selected route and why. The expanded route is:
+  `Spec → Design direction → Visual mock preview → Design review → Approval →
+  React/HTML implementation → Browser QA`; use it when the task's uncertainty,
+  novelty, or risk justifies it.
 
 Add motion, mobile, stress-testing, or broader UX skills only when relevant.
 External references such as Jitter, Animos, Refero Styles, Animations.dev, and
@@ -188,6 +201,13 @@ action from `references/next-actions.md`.
 Never push, deploy, apply remote migrations, change production data, run
 irreversible infrastructure changes, or modify external tracking without
 explicit approval in the current task. Never print or persist secrets.
+
+The installer may launch the official Codex device-login flow sequentially for
+multiple isolated profiles when the user explicitly passes `--login`. Keep
+authentication inside Codex, never capture login URLs, device codes, tokens, or
+history databases, and stop on a failed profile rather than skipping silently.
+Use `setup --add N` when extending an existing installation; preserve existing
+profile homes and authenticate only newly added profiles when `--login` is used.
 
 ## Goals and completion
 

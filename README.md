@@ -33,6 +33,33 @@ For automation:
 node bin/cherkani-stack.mjs setup --count 2
 ```
 
+To configure profiles and sign them in one at a time using the official Codex
+device-login flow:
+
+```bash
+cherkani-stack setup --count 3 --login
+```
+
+The installer shows the login instructions for `codex1`, waits until that
+profile finishes, then continues to `codex2` and `codex3`. Follow the URL and
+code shown by Codex in your browser or terminal. Cherkani never reads, stores,
+or prints authentication codes. If device login is unavailable for an account,
+run its launcher manually, for example `codex1 login`.
+
+To keep an existing account and add one new isolated profile:
+
+```bash
+cherkani-stack setup --add 1
+```
+
+This preserves the existing profile as `codex1`, adds `codex2`, refreshes the
+Cherkani instructions, and does not re-authenticate the existing account. To
+sign in only the newly added profile, use:
+
+```bash
+cherkani-stack setup --add 1 --login
+```
+
 Create or list a shared, credential-free session handoff:
 
 ```bash

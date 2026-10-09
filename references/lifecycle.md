@@ -10,6 +10,8 @@ capabilities, while expert roles create the decision quality.
 | Context discovery | researcher/architect | project map, evidence, unknowns | no critical context gap remains |
 | User/spec definition | product designer | user journey, states, acceptance checks | behavior is unambiguous |
 | Taste and design direction | design director | visual thesis, reuse, interaction principles | design direction is coherent |
+| Visual mock preview (when useful) | prototype designer | HTML/React preview, states, screenshots | uncertainty is reduced enough to implement |
+| Design review and approval (when useful) | independent design reviewer | findings, selected direction, decision | direction is accepted or the smaller route is justified |
 | Engineering architecture | staff engineer | boundaries, data flow, dependencies, risks | architecture fits the codebase |
 | Developer-experience review | DX lead | setup, commands, failure recovery, handoff | another developer can run it |
 | Thin-slice execution plan | delivery lead | ordered slices and proof per slice | work is independently verifiable |

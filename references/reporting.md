@@ -13,7 +13,10 @@ Every meaningful Cherkani response or command ends with a compact handoff:
 Use situation-specific suggestions, not a generic checklist. Examples:
 
 - after research: compare the recommendation against the product goal;
-- after design: run accessibility, responsive, and browser review;
+- after design direction: choose whether a mock is needed; if yes, create the
+  HTML/React preview and request design review;
+- after implementation: run the smallest relevant accessibility, responsive,
+  motion, device, and browser review;
 - after implementation: run focused tests, then the broader project checks;
 - after a bug fix: verify the regression and test the failure boundary;
 - after backend or migration work: report the trace, compatibility window,

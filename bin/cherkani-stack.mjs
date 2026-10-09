@@ -55,6 +55,21 @@ async function createLauncher(file, command, profileHome) {
   return file;
 }
 
+function loginProfiles(profiles) {
+  const command = platform() === "win32" ? "codex.cmd" : "codex";
+  for (const profile of profiles) {
+    console.log(`\n=== Sign in to ${profile.name} ===`);
+    console.log("Follow the official Codex device-login instructions shown below. Cherkani does not read or store your code or credentials.");
+    const result = spawnSync(command, ["login", "--device-auth"], {
+      env: { ...process.env, CODEX_HOME: profile.home },
+      stdio: "inherit",
+    });
+    if (result.error) throw new Error(`Could not start Codex login for ${profile.name}: ${result.error.message}`);
+    if (result.status !== 0) throw new Error(`${profile.name} login did not complete. Re-run \`cherkani-stack setup --login\` or \`codex${profile.name.slice(5)} login\` when ready.`);
+    console.log(`${profile.name} login completed.`);
+  }
+}
+
 async function configureProfile(name, profileHome, sharedSessions) {
   await ensureDir(profileHome);
   const installedSkill = join(profileHome, "skills", "cherkani-stack");
@@ -66,15 +81,25 @@ async function configureProfile(name, profileHome, sharedSessions) {
   return { name, home: profileHome };
 }
 
-async function setup({ count: requestedCount, nonInteractive = false } = {}) {
+async function setup({ count: requestedCount, add: requestedAdd, nonInteractive = false, login = false } = {}) {
   const rl = nonInteractive ? null : createInterface({ input, output });
   let count = Number(requestedCount || 0);
+  const add = Number(requestedAdd || 0);
+  const sharedRoot = join(SHARED_HOME, "cherkani-stack");
+  const installFile = join(sharedRoot, "install.json");
+  let previousProfiles = [];
+  if (existsSync(installFile)) {
+    try { previousProfiles = JSON.parse(await readFile(installFile, "utf8")).profiles || []; }
+    catch { previousProfiles = []; }
+  }
+  if (!previousProfiles.length && existsSync(DEFAULT_HOME)) previousProfiles = [{ name: "codex1", home: DEFAULT_HOME }];
+  if (!count && add) count = previousProfiles.length + add;
   if (!count && rl) count = Number((await rl.question("How many Codex profiles/accounts should Cherkani Stack configure? [1] ")).trim() || "1");
   rl?.close();
   if (!Number.isInteger(count) || count < 1 || count > 20) throw new Error("Profile count must be an integer from 1 to 20.");
+  if (add && (!Number.isInteger(add) || add < 1 || previousProfiles.length + add > 20)) throw new Error("Additional profile count must keep the total between 1 and 20.");
 
   await ensureDir(SHARED_HOME);
-  const sharedRoot = join(SHARED_HOME, "cherkani-stack");
   const sharedSessions = join(sharedRoot, "shared-sessions");
   await ensureDir(sharedSessions);
   await copyDir(join(ROOT, "references", "session-handoff.md"), join(sharedSessions, "SESSION_TEMPLATE.md"));
@@ -88,7 +113,8 @@ async function setup({ count: requestedCount, nonInteractive = false } = {}) {
   const profiles = [];
   for (let index = 1; index <= count; index += 1) {
     const name = `codex${index}`;
-    const profileHome = count === 1 && index === 1 ? DEFAULT_HOME : join(homedir(), name);
+    const existing = previousProfiles[index - 1];
+    const profileHome = existing?.home || (index === 1 && count === 1 ? DEFAULT_HOME : join(homedir(), name));
     profiles.push(await configureProfile(name, profileHome, sharedSessions));
   }
 
@@ -104,6 +130,7 @@ async function setup({ count: requestedCount, nonInteractive = false } = {}) {
   console.log(`Shared session handoffs: ${sharedSessions}`);
   console.log("Authentication remains separate. Run `codex1 login`, `codex2 login`, etc. for each account.");
   console.log(`Add ${binDir} to PATH if the launchers are not found.`);
+  if (login) loginProfiles(add ? profiles.slice(previousProfiles.length) : profiles);
 }
 
 async function session(command, name = "session") {
@@ -251,15 +278,17 @@ async function finish(args) {
 async function phase(nextPhase) {
   const current = await readGoal();
   const aliases = { goal: "brief", discover: "context", specify: "spec", test: "qa", review: "adversarial-review" };
-  const phases = ["brief", "ceo", "context", "spec", "taste", "architecture", "dx", "plan", "build", "qa", "security", "adversarial-review", "ship", "learn"];
+  const phases = ["brief", "ceo", "context", "spec", "taste", "design-preview", "design-review", "architecture", "dx", "plan", "build", "qa", "security", "adversarial-review", "ship", "learn"];
   const canonicalPhase = aliases[nextPhase] || nextPhase;
   if (!phases.includes(canonicalPhase)) throw new Error(`Phase must be one of: ${phases.join(", ")}`);
   const nextActions = {
     brief: "Challenge the outcome with a CEO/product review.",
     ceo: "Inspect the product, users, rules, code, and existing patterns.",
     context: "Write the user outcome, scope, non-goals, and acceptance checks.",
-    spec: "Set the taste/design direction when UI is involved, then define architecture.",
-    taste: "Define boundaries, data flow, risks, and failure recovery.",
+    spec: "Set the taste/design direction when UI is involved, then create a visual mock.",
+    taste: "Create a reviewable HTML or React visual mock with the relevant states.",
+    "design-preview": "Run design review and request approval before production UI implementation.",
+    "design-review": "Record the approved direction, then define boundaries, data flow, risks, and recovery.",
     architecture: "Review setup, commands, debugging, testing, and handoff DX.",
     dx: "Break the work into thin vertical slices with verification commands.",
     plan: "Implement the smallest complete vertical slice.",
@@ -281,7 +310,10 @@ async function main() {
   const [command = "setup", ...args] = process.argv.slice(2);
   const index = args.indexOf("--count");
   const count = index >= 0 ? args[index + 1] : undefined;
-  if (command === "setup" || command === "install") await setup({ count, nonInteractive: Boolean(count) });
+  const addIndex = args.indexOf("--add");
+  const add = addIndex >= 0 ? args[addIndex + 1] : undefined;
+  const login = args.includes("--login");
+  if (command === "setup" || command === "install") await setup({ count, add, login, nonInteractive: Boolean(count || add) });
   else if (command === "begin") await begin(args);
   else if (command === "verify") await verify(args);
   else if (command === "finish") await finish(args);
@@ -289,7 +321,7 @@ async function main() {
   else if (command === "goal") await goal(args[0] || "status", args.slice(1).join(" "));
   else if (command === "phase") await phase(args[0]);
   else if (command === "doctor") console.log(JSON.stringify({ root: ROOT, sharedHome: SHARED_HOME, defaultHome: DEFAULT_HOME, node: process.version, platform: platform() }, null, 2));
-  else { console.log("Usage: cherkani-stack [setup|install|begin|verify|finish|doctor|session|goal|phase] [--count N]"); process.exitCode = 1; }
+  else { console.log("Usage: cherkani-stack [setup|install|begin|verify|finish|doctor|session|goal|phase] [--count N] [--add N] [--login]"); process.exitCode = 1; }
 }
 
 main().catch((error) => { console.error(`cherkani-stack: ${error.message}`); process.exitCode = 1; });

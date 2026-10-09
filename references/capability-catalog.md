@@ -31,6 +31,13 @@ Use `prototype` or `design-shotgun` when comparing genuinely different
 directions, `improve-ui` for an evidence-led existing-surface audit, and
 `pick-ui-library` only when a new library decision is actually needed.
 
+For new, uncertain, or high-risk UI work, create the visual mock before
+production code. Tiny changes that reuse an existing pattern may use focused
+QA instead. Use HTML/CSS for quick layout exploration, React for realistic
+states, `imagegen` for optional concept direction, and browser screenshots for
+review evidence. Choose the route in `references/design-preview.md` and report
+why it fits.
+
 Use Jitter, Animos, Refero Styles, and Animations.dev as visual or motion
 references only. Use Apple Design, Emil Kowalski, Impeccable, Taste Skill,
 AGI Whitelist, and Find Skills when their design, critique, values, or

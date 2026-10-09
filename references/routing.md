@@ -7,7 +7,7 @@ Choose one primary route. Do not stack multiple competing planners or routers.
 | vague idea | Founder brief → `interview-me` → `idea-refine` | `spec-driven-development` |
 | new feature | CEO review → Spec → Plan → Build | planning, tests, review |
 | architecture | Context → Architecture → `plan-eng-review` | `context-engineering`, security |
-| UI/design | Spec → Taste → Design gate → Build | Apple/Emil, accessibility, QA |
+| UI/design | Choose the smallest route: reuse → build → focused QA, or Spec → Taste → Visual mock → Review → Build → Browser QA | Apple/Emil, prototype, imagegen, accessibility, QA |
 | bug | Context → investigate → Build | tests, review |
 | database/Supabase | Spec → Architecture → Supabase workflow | Postgres, security, auth/RLS |
 | security | Context → Security → review | threat model, hardening |

@@ -38,6 +38,15 @@
   Supabase, while retaining Supabase/RLS as a specialized project adapter.
 - Added a dependency-free local quality gate and source-driven documentation
   integration with a reusable source registry and freshness caveat.
+- Added the visual design preview gate: Spec → Design direction → HTML/React
+  mock → Design review → Approval → implementation → Browser QA.
+- Made the design preview gate adaptive: small reuse-first changes can take a
+  focused QA route, while novel or risky surfaces use mocks and approval.
+- Added optional sequential Codex device login with `setup --login`; each
+  profile authenticates in its own `CODEX_HOME`, and credentials remain inside
+  the official Codex CLI.
+- Added additive profile setup with `setup --add N`, preserving existing
+  profile homes and signing in only newly added profiles when requested.
 - Completed the local migration: Cherkani Stack is installed with its complete
   reference set, while the former CStack/GStack directories are out of active
   discovery and preserved in a dated rollback archive.
