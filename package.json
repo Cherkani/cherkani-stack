@@ -1,0 +1,10 @@
+{
+  "name": "cherkani-stack",
+  "version": "0.1.0",
+  "description": "Portable Codex workflow, profiles, shared sessions, and project operating rules.",
+  "type": "module",
+  "bin": { "cherkani-stack": "bin/cherkani-stack.mjs" },
+  "engines": { "node": ">=18" },
+  "scripts": { "test": "node scripts/test-cli.mjs" },
+  "license": "MIT"
+}

@@ -1,0 +1,21 @@
+import { strict as assert } from "node:assert";
+import { existsSync } from "node:fs";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+
+const root = new URL("..", import.meta.url).pathname;
+const packageJson = JSON.parse(await readFile(join(root, "package.json"), "utf8"));
+assert.equal(packageJson.bin["cherkani-stack"], "bin/cherkani-stack.mjs");
+assert(existsSync(join(root, "AGENTS.md")));
+assert(existsSync(join(root, "skills", "cherkani-stack", "SKILL.md")));
+assert(existsSync(join(root, "references", "routing.md")));
+assert(existsSync(join(root, "references", "lifecycle.md")));
+assert(existsSync(join(root, "bin", "cherkani-stack.mjs")));
+assert(existsSync(join(root, "references", "integrations.md")));
+assert(existsSync(join(root, "references", "cstack-capabilities.md")));
+assert(existsSync(join(root, "references", "gstack-capabilities.md")));
+assert(existsSync(join(root, "references", "capability-catalog.md")));
+assert(existsSync(join(root, "references", "reporting.md")));
+assert(existsSync(join(root, "references", "next-actions.md")));
+assert(existsSync(join(root, "references", "cross-platform.md")));
+console.log("cherkani-stack package checks passed");

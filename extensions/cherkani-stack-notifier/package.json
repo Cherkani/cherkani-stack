@@ -1,0 +1,27 @@
+{
+  "name": "cherkani-stack-notifier",
+  "displayName": "Cherkani Stack Notifier",
+  "description": "Shows Codex goal and session events in VS Code.",
+  "version": "0.1.0",
+  "publisher": "cherkani",
+  "license": "MIT",
+  "engines": { "vscode": ">=1.85.0" },
+  "categories": ["Other"],
+  "activationEvents": ["onStartupFinished"],
+  "main": "extension.mjs",
+  "contributes": {
+    "commands": [
+      { "command": "cherkani-stack.openSharedSessions", "title": "Cherkani Stack: Open Shared Sessions" }
+    ],
+    "configuration": {
+      "title": "Cherkani Stack",
+      "properties": {
+        "cherkaniStack.sharedHome": {
+          "type": "string",
+          "default": "",
+          "description": "Optional shared Codex home. Defaults to ~/.codex_shared."
+        }
+      }
+    }
+  }
+}
